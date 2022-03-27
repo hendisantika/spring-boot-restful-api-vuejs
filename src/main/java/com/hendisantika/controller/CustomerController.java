@@ -1,9 +1,13 @@
 package com.hendisantika.controller;
 
+import com.hendisantika.entity.Customer;
 import com.hendisantika.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,4 +29,15 @@ public class CustomerController {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @GetMapping("/customers")
+    public ResponseEntity<Object> getAllCustomers() {
+        try {
+            Iterable<Customer> customers = customerRepository.findAll();
+            return new ResponseEntity<Object>(customers, HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
