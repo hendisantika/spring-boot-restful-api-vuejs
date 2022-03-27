@@ -6,10 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,6 +32,21 @@ public class CustomerController {
         try {
             Iterable<Customer> customers = customerRepository.findAll();
             return new ResponseEntity<Object>(customers, HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<Object> getCustomerById(@PathVariable("id") Long id) {
+        try {
+            Customer customer = customerRepository.findById(id).get();
+            if (customer != null) {
+                return new ResponseEntity<Object>(customer, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+            }
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
