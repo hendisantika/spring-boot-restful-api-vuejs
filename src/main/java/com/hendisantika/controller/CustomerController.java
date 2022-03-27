@@ -52,4 +52,15 @@ public class CustomerController {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PostMapping("/customers")
+    public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
+        try {
+            Customer savedCustomer = customerRepository.save(customer);
+            return new ResponseEntity<Object>(savedCustomer, HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
