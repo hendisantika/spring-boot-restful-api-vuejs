@@ -31,10 +31,10 @@ public class CustomerController {
     public ResponseEntity<Object> getAllCustomers() {
         try {
             Iterable<Customer> customers = customerRepository.findAll();
-            return new ResponseEntity<Object>(customers, HttpStatus.OK);
+            return new ResponseEntity<>(customers, HttpStatus.OK);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -42,11 +42,7 @@ public class CustomerController {
     public ResponseEntity<Object> getCustomerById(@PathVariable("id") Long id) {
         try {
             Customer customer = customerRepository.findById(id).get();
-            if (customer != null) {
-                return new ResponseEntity<Object>(customer, HttpStatus.OK);
-            } else {
-                return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-            }
+            return new ResponseEntity<>(customer, HttpStatus.OK);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
@@ -57,10 +53,10 @@ public class CustomerController {
     public ResponseEntity<Object> createCustomer(@RequestBody Customer customer) {
         try {
             Customer savedCustomer = customerRepository.save(customer);
-            return new ResponseEntity<Object>(savedCustomer, HttpStatus.OK);
+            return new ResponseEntity<>(savedCustomer, HttpStatus.OK);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -69,10 +65,10 @@ public class CustomerController {
         try {
             customer.setId(id);
             Customer savedCustomer = customerRepository.save(customer);
-            return new ResponseEntity<Object>(savedCustomer, HttpStatus.OK);
+            return new ResponseEntity<>(savedCustomer, HttpStatus.OK);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -80,10 +76,10 @@ public class CustomerController {
     public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable("id") Long id) {
         try {
             customerRepository.deleteById(id);
-            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
-            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 }
