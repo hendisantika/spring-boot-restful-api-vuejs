@@ -63,4 +63,16 @@ public class CustomerController {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<Object> updateCustomer(@PathVariable("id") Long id, @RequestBody Customer customer) {
+        try {
+            customer.setId(id);
+            Customer savedCustomer = customerRepository.save(customer);
+            return new ResponseEntity<Object>(savedCustomer, HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
