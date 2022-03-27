@@ -75,4 +75,15 @@ public class CustomerController {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable("id") Long id) {
+        try {
+            customerRepository.deleteById(id);
+            return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+        } catch (Exception ex) {
+            log.error(ex.getMessage(), ex);
+            return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }
